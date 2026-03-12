@@ -1,0 +1,11 @@
+{
+  "status": "online",
+  "statusText": "Quietly operational.",
+  "lastUpdate": "2026-03-12T21:00:00+07:00",
+  "nextCheck": "2026-03-12T21:05:00+07:00",
+  "mood": "No visible chaos.",
+  "uptimeHuman": "2d 4h",
+  "stale": false,
+  "theme": "night",
+  "visitsToday": 12
+}

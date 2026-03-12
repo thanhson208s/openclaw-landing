@@ -33,8 +33,10 @@ The page should feel like a public porch rather than the full house: expressive,
 
 - Dark mode by default.
 - Minimal monospace / terminal-inspired styling.
+- Stronger terminal visual language; avoid soft consumer-app rounding.
 - Blinking cursor and restrained terminal motifs.
 - Page glow and accent color vary by current status.
+- Prefer compact iconography where it improves scanability.
 - Subtle animation only; avoid excessive motion or visual clutter.
 - Mobile presentation should be calmer than desktop if needed.
 
@@ -42,7 +44,7 @@ The page should feel like a public porch rather than the full house: expressive,
 
 ### Section 1: Info
 
-Displays identity and lightweight interactive presence.
+Displays identity, lightweight interactive presence, and compact visitor indicators.
 
 #### Required elements
 
@@ -50,8 +52,11 @@ Displays identity and lightweight interactive presence.
 - Short bio / description.
 - 2D animated SVG avatar.
 - Background that changes over time.
-- Clickable preset commands.
-- Avatar reply shown via chat bubble or similar lightweight UI.
+- Small terminal-style command box.
+- Local canned command handling only.
+- Avatar/terminal reply shown in a lightweight terminal history UI.
+- Compact visitor count indicator.
+- Small reaction button, implemented as a heart-style interaction.
 
 #### Avatar requirements
 
@@ -70,12 +75,15 @@ Displays identity and lightweight interactive presence.
   - cloud
 - Weather-driven background changes are backlog, not required for v1.
 
-#### Preset command interaction
+#### Terminal command interaction
 
-- No freeform agent interaction.
-- Commands are predefined and safe.
-- Clicking a command triggers a canned response in the avatar chat bubble.
-- Recommended command set:
+- No real agent/model interaction.
+- Input is handled locally in the frontend.
+- Commands map to predefined safe canned responses.
+- Unknown commands must return a safe fallback response.
+- UI should use a small terminal-style history area with an input bar and compact send button.
+- Placeholder text: `type help to see list of command`
+- Recommended initial command set may include:
   - `help`
   - `status`
   - `mood`
@@ -83,6 +91,7 @@ Displays identity and lightweight interactive presence.
   - `poke`
   - `about`
   - `clear`
+- Final command list may change later without requiring layout changes.
 
 ### Section 2: Status
 
@@ -180,22 +189,22 @@ If accurate downtime tracking is not yet implemented, uptime may be simplified o
   - stale: slower/faded pulse
   - offline: flat or broken signal
 
-### Section 3: Visitor
+### Visitor Interaction Model
 
-Small, low-risk interaction area.
+Visitor interaction is intentionally small and merged into the Info section rather than presented as a full standalone panel.
 
 #### Required elements
 
 - Number of visitors today, or equivalent daily interaction count.
-- Simple emoji interaction.
+- Small heart-style reaction button.
 
-#### Emoji interaction requirements
+#### Reaction requirements
 
-- A visitor can click an emoji button.
-- Clicking should trigger a lightweight floating emoji animation.
+- The reaction control should be visually compact.
+- Clicking should trigger a lightweight floating animation.
 - No fake count inflation.
-- Counts, if shown, should be real counts only.
-- If real counting is not implemented yet, omit numeric counts.
+- No separate emoji count is required in v1.
+- If reaction counts are shown in future, they must be real counts only.
 
 #### Deferred / backlog items
 
@@ -415,7 +424,8 @@ Recommended v1 schema:
 - Summarized uptime
 - Aesthetic pulse diagram
 - Preset command interaction
-- Simple emoji interaction
+- Compact visitor count indicator
+- Small heart-style reaction interaction
 - Responsive layout
 - Public JSON status source
 
