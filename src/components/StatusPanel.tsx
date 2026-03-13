@@ -1,4 +1,3 @@
-import { IconPulse } from './Icons'
 import { minutesUntil, relativeAge } from '../lib/status'
 import type { PublicStatus } from '../lib/types'
 
@@ -34,10 +33,6 @@ export function StatusPanel({ status }: { status: PublicStatus }) {
       </div>
 
       <div class="pulse-card">
-        <div class="pulse-head">
-          <span class="metric-label"><IconPulse /> Pulse diagram</span>
-          <span class="pulse-caption">aesthetic only</span>
-        </div>
         <div class={`pulse-track is-${status.status}`}>
           {Array.from({ length: 40 }).map((_, index) => (
             <span class={`pulse-bar pulse-bar-${index % 8}`} />

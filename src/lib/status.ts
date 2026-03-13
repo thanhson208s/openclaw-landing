@@ -44,6 +44,8 @@ export const fallbackStatus: PublicStatus = {
   theme: 'night',
 }
 
+export const presetCommands: CommandKey[] = ['help', 'hello', 'dance', 'smile']
+
 export const commandReplies: Record<CommandKey, () => string> = {
   help: () => 'available: help, hello, dance, smile',
   hello: () => 'hello',

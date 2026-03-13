@@ -1,26 +1,25 @@
 import type { JSX } from 'preact'
-import type { PublicStatus, TerminalEntry } from '../lib/types'
-import { Avatar } from './Avatar'
+import type { TerminalEntry } from '../lib/types'
 import { IconHeart } from './Icons'
 
 type Props = {
-  status: PublicStatus
   heartBursts: number[]
   onHeart: () => void
   terminal: TerminalEntry[]
   terminalHistoryRef: preact.RefObject<HTMLDivElement>
   input: string
+  inputPlaceholder: string
   setInput: (value: string) => void
   submitCommand: (event?: Event | JSX.TargetedEvent<HTMLFormElement, Event>) => void
 }
 
 export function ProfilePanel({
-  status,
   heartBursts,
   onHeart,
   terminal,
   terminalHistoryRef,
   input,
+  inputPlaceholder,
   setInput,
   submitCommand,
 }: Props) {
@@ -55,7 +54,7 @@ export function ProfilePanel({
                 class="terminal-input"
                 value={input}
                 onInput={(event) => setInput((event.target as HTMLInputElement).value)}
-                placeholder="type help to see list of command"
+                placeholder={inputPlaceholder}
               />
               <button type="submit" class="terminal-send-button" aria-label="Send command">
                 ↵
@@ -65,8 +64,16 @@ export function ProfilePanel({
         </div>
 
         <div class="avatar-block avatar-block--framed">
-          <div class="avatar-stage">
-            <Avatar status={status.status} />
+          <div class="avatar-stage avatar-stage--video">
+            <video
+              class="avatar-video"
+              src="/avatar.mp4"
+              autoplay
+              muted
+              loop
+              playsinline
+              preload="auto"
+            />
           </div>
           <div class="heart-stage" aria-hidden="true">
             {heartBursts.map((id, index) => (

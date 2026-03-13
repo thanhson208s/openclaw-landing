@@ -35,13 +35,13 @@ export function FooterBar() {
   return (
     <footer class="footer-bar">
       <div class="social-links" aria-label="Social links">
-        <a class="social-link" href="https://facebook.com" target="_blank" rel="noreferrer" aria-label="Facebook">
+        <a class="social-link" href="https://www.facebook.com/son.bui208s/" target="_blank" rel="noreferrer" aria-label="Facebook">
           <IconFacebook />
         </a>
-        <a class="social-link" href="https://github.com/thanhson208s/openclaw-landing" target="_blank" rel="noreferrer" aria-label="GitHub">
+        <a class="social-link" href="https://github.com/thanhson208s" target="_blank" rel="noreferrer" aria-label="GitHub">
           <IconGithub />
         </a>
-        <a class="social-link" href="https://linkedin.com" target="_blank" rel="noreferrer" aria-label="LinkedIn">
+        <a class="social-link" href="https://www.linkedin.com/in/sonbui208s/" target="_blank" rel="noreferrer" aria-label="LinkedIn">
           <IconLinkedIn />
         </a>
       </div>

@@ -4,13 +4,14 @@ import './app.css'
 import { FooterBar } from './components/FooterBar'
 import { ProfilePanel } from './components/ProfilePanel'
 import { StatusPanel } from './components/StatusPanel'
-import { commandReplies, evaluateStatus, fallbackStatus } from './lib/status'
+import { commandReplies, evaluateStatus, fallbackStatus, presetCommands } from './lib/status'
 import type { CommandKey, PublicStatus, TerminalEntry } from './lib/types'
 
 export function App() {
   const [status, setStatus] = useState<PublicStatus>(evaluateStatus(fallbackStatus))
   const [heartBursts, setHeartBursts] = useState<number[]>([])
   const [input, setInput] = useState('')
+  const [placeholderIndex, setPlaceholderIndex] = useState(0)
   const [terminal, setTerminal] = useState<TerminalEntry[]>([
     { id: 1, role: 'output', text: 'type help to see list of command' },
   ])
@@ -51,6 +52,16 @@ export function App() {
     }
   }, [terminal])
 
+  useEffect(() => {
+    const timer = window.setInterval(() => {
+      setPlaceholderIndex((current) => (current + 1) % presetCommands.length)
+    }, 2000)
+
+    return () => {
+      window.clearInterval(timer)
+    }
+  }, [])
+
   const sendHeart = () => {
     const id = Date.now()
     setHeartBursts((current) => [...current, id])
@@ -79,6 +90,8 @@ export function App() {
     setInput('')
   }
 
+  const inputPlaceholder = presetCommands[placeholderIndex]
+
   return (
     <main class={`app-shell ${themeClass}`}>
       <div class="background-grid" />
@@ -92,12 +105,12 @@ export function App() {
 
       <section class="layout-grid">
         <ProfilePanel
-          status={status}
           heartBursts={heartBursts}
           onHeart={sendHeart}
           terminal={terminal}
           terminalHistoryRef={terminalHistoryRef}
           input={input}
+          inputPlaceholder={inputPlaceholder}
           setInput={setInput}
           submitCommand={submitCommand}
         />
