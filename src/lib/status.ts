@@ -1,7 +1,9 @@
 import type { CommandKey, PublicStatus } from './types'
 
-const ONLINE_THRESHOLD_MINUTES = 10
+export const ONLINE_THRESHOLD_MINUTES = 10
 const OFFLINE_THRESHOLD_MINUTES = 30
+export const NEXT_CHECK_GRACE_SECONDS = 30
+export const RELOAD_THROTTLE_SECONDS = 30
 
 const statusLines: Record<PublicStatus['status'], string[]> = {
   online: [
@@ -60,6 +62,20 @@ export function minutesUntil(value: string) {
   return Math.max(0, Math.round(diff / 60000))
 }
 
+export function countdownUntil(value: string, extraSeconds = NEXT_CHECK_GRACE_SECONDS) {
+  const timestamp = Date.parse(value)
+  if (Number.isNaN(timestamp)) return 0
+  const diff = timestamp + extraSeconds * 1000 - Date.now()
+  return Math.max(0, Math.ceil(diff / 1000))
+}
+
+export function formatCountdown(totalSeconds: number) {
+  const safe = Math.max(0, totalSeconds)
+  const minutes = Math.floor(safe / 60)
+  const seconds = safe % 60
+  return `${minutes}:${String(seconds).padStart(2, '0')}`
+}
+
 export function relativeAge(value: string) {
   const timestamp = Date.parse(value)
   if (Number.isNaN(timestamp)) return 'unknown'
@@ -76,7 +92,7 @@ function pickStatusLine(status: PublicStatus['status']) {
   return options[Math.floor(Math.random() * options.length)]
 }
 
-function ageMinutes(value: string) {
+export function ageMinutes(value: string) {
   const timestamp = Date.parse(value)
   if (Number.isNaN(timestamp)) return Number.POSITIVE_INFINITY
   return Math.max(0, Math.round((Date.now() - timestamp) / 60000))

@@ -2,8 +2,19 @@ import type { JSX } from 'preact'
 import type { TerminalEntry } from '../lib/types'
 import { IconHeart } from './Icons'
 
+type HeartBurst = {
+  id: number
+  left: number
+  drift: number
+  rotate: number
+  scale: number
+  duration: number
+  delay: number
+  bottom: number
+}
+
 type Props = {
-  heartBursts: number[]
+  heartBursts: HeartBurst[]
   onHeart: () => void
   terminal: TerminalEntry[]
   terminalHistoryRef: preact.RefObject<HTMLDivElement>
@@ -26,7 +37,7 @@ export function ProfilePanel({
   return (
     <section class="panel info-panel">
       <div class="panel-head profile-head">
-        <h1>Brandy</h1>
+        <h1>&lt;Brandy/&gt;</h1>
         <div class="compact-meta-row compact-meta-row--top">
           <button type="button" class="heart-button" onClick={onHeart} aria-label="Send heart reaction">
             <IconHeart />
@@ -76,8 +87,20 @@ export function ProfilePanel({
             />
           </div>
           <div class="heart-stage" aria-hidden="true">
-            {heartBursts.map((id, index) => (
-              <span class="heart-float" style={{ left: `${34 + (index % 4) * 10}%` }} key={id}>
+            {heartBursts.map((burst) => (
+              <span
+                class="heart-float"
+                style={{
+                  left: `${burst.left}%`,
+                  bottom: `${burst.bottom}%`,
+                  '--heart-drift': `${burst.drift}px`,
+                  '--heart-rotate': `${burst.rotate}deg`,
+                  '--heart-scale': `${burst.scale}`,
+                  '--heart-duration': `${burst.duration}ms`,
+                  '--heart-delay': `${burst.delay}ms`,
+                }}
+                key={burst.id}
+              >
                 ♥
               </span>
             ))}

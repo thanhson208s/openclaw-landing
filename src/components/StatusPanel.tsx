@@ -1,7 +1,30 @@
-import { minutesUntil, relativeAge } from '../lib/status'
+import { countdownUntil, formatCountdown, relativeAge } from '../lib/status'
 import type { PublicStatus } from '../lib/types'
 
-export function StatusPanel({ status }: { status: PublicStatus }) {
+type Props = {
+  status: PublicStatus
+  countdownSeconds: number
+}
+
+function Moodline({ text }: { text: string }) {
+  const shouldScroll = text.length > 42
+
+  if (!shouldScroll) {
+    return <span class="status-line-value moodline-text">{text}</span>
+  }
+
+  return (
+    <span class="status-line-value moodline-marquee-wrap">
+      <span class="moodline-marquee-track">
+        <span class="moodline-marquee-text">{text}</span>
+        <span class="moodline-marquee-separator"> • </span>
+        <span class="moodline-marquee-text" aria-hidden="true">{text}</span>
+      </span>
+    </span>
+  )
+}
+
+export function StatusPanel({ status, countdownSeconds }: Props) {
   return (
     <section class="panel status-panel">
       <div class="panel-head">
@@ -20,7 +43,7 @@ export function StatusPanel({ status }: { status: PublicStatus }) {
         </article>
         <article class="status-line">
           <span class="status-line-label">Next check</span>
-          <span class="status-line-value">{minutesUntil(status.nextCheck)} min</span>
+          <span class="status-line-value">{formatCountdown(countdownSeconds)}</span>
         </article>
         <article class="status-line">
           <span class="status-line-label">Stability</span>
@@ -28,7 +51,7 @@ export function StatusPanel({ status }: { status: PublicStatus }) {
         </article>
         <article class="status-line">
           <span class="status-line-label">Moodline</span>
-          <span class="status-line-value">{status.mood}</span>
+          <Moodline text={status.mood} />
         </article>
       </div>
 
@@ -41,4 +64,8 @@ export function StatusPanel({ status }: { status: PublicStatus }) {
       </div>
     </section>
   )
+}
+
+export function getInitialCountdown(status: PublicStatus) {
+  return countdownUntil(status.nextCheck)
 }

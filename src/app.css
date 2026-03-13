@@ -19,7 +19,10 @@
 .app-shell {
   position: relative;
   height: 100vh;
-  padding: 16px 18px 18px;
+  padding-top: calc(16px + env(safe-area-inset-top, 0px));
+  padding-right: 18px;
+  padding-bottom: calc(18px + env(safe-area-inset-bottom, 0px));
+  padding-left: 18px;
   color: var(--text);
   overflow: hidden;
   display: flex;
@@ -52,8 +55,8 @@
 }
 
 .status-online {
-  --accent: #7affc4;
-  --accent-soft: rgba(122, 255, 196, 0.14);
+  --accent: #4db6ff;
+  --accent-soft: rgba(77, 182, 255, 0.18);
 }
 
 .status-stale {
@@ -355,9 +358,14 @@ small {
 
 .heart-float {
   position: absolute;
-  bottom: 18px;
-  color: var(--accent);
-  animation: floatUp 1.5s ease-out forwards;
+  color: color-mix(in srgb, var(--accent) 88%, white 12%);
+  text-shadow: 0 0 10px color-mix(in srgb, var(--accent) 65%, transparent);
+  opacity: 0;
+  transform: translate3d(0, 0, 0) rotate(0deg) scale(0.85);
+  animation: heartFloat var(--heart-duration, 1600ms) cubic-bezier(0.2, 0.7, 0.28, 1) forwards;
+  animation-delay: var(--heart-delay, 0ms);
+  will-change: transform, opacity;
+  pointer-events: none;
 }
 
 .status-panel {
@@ -410,6 +418,32 @@ small {
   font-size: 0.92rem;
   white-space: nowrap;
   justify-self: end;
+}
+
+.moodline-text {
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.moodline-marquee-wrap {
+  display: block;
+  width: min(34ch, 100%);
+  max-width: 100%;
+  overflow: hidden;
+  justify-self: end;
+}
+
+.moodline-marquee-track {
+  display: inline-flex;
+  width: max-content;
+  align-items: center;
+  animation: moodline-scroll 10s linear infinite;
+}
+
+.moodline-marquee-text,
+.moodline-marquee-separator {
+  white-space: nowrap;
 }
 
 .pulse-card {
@@ -469,10 +503,28 @@ small {
   50% { transform: scaleY(1.08); opacity: 1; }
 }
 
-@keyframes floatUp {
-  0% { transform: translateY(0) scale(0.95); opacity: 0; }
-  20% { opacity: 1; }
-  100% { transform: translateY(-56px) scale(1.1); opacity: 0; }
+@keyframes heartFloat {
+  0% {
+    opacity: 0;
+    transform: translate3d(0, 8px, 0) rotate(0deg) scale(calc(var(--heart-scale, 1) * 0.9));
+  }
+  10% {
+    opacity: 1;
+  }
+  88% {
+    opacity: 0.95;
+  }
+  100% {
+    opacity: 0;
+    transform: translate3d(var(--heart-drift, 0px), -190px, 0) rotate(var(--heart-rotate, 0deg)) scale(calc(var(--heart-scale, 1) * 1.08));
+  }
+}
+
+@keyframes moodline-scroll {
+  0% { transform: translateX(0); }
+  12% { transform: translateX(0); }
+  88% { transform: translateX(calc(-50% - 0.4rem)); }
+  100% { transform: translateX(calc(-50% - 0.4rem)); }
 }
 
 .footer-bar {
@@ -568,7 +620,10 @@ small {
 
 @media (max-width: 640px) {
   .app-shell {
-    padding: 14px 10px 24px;
+    padding-top: calc(14px + env(safe-area-inset-top, 0px));
+    padding-right: 10px;
+    padding-bottom: calc(24px + env(safe-area-inset-bottom, 0px));
+    padding-left: 10px;
   }
 
   .panel {
@@ -582,7 +637,11 @@ small {
 
   .status-line-value {
     text-align: left;
-    justify-self: start;
+    justify-self: stretch;
+  }
+
+  .moodline-marquee-wrap {
+    width: 100%;
   }
 
   .terminal-input-row {
