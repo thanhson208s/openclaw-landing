@@ -1,7 +1,7 @@
 import type { CommandKey, PublicStatus } from './types'
 
-export const ONLINE_THRESHOLD_MINUTES = 10
-const OFFLINE_THRESHOLD_MINUTES = 30
+export const ONLINE_THRESHOLD_MINUTES = 30
+const OFFLINE_THRESHOLD_MINUTES = 90
 export const NEXT_CHECK_GRACE_SECONDS = 30
 export const RELOAD_THROTTLE_SECONDS = 30
 
@@ -40,7 +40,7 @@ export const fallbackStatus: PublicStatus = {
   status: 'offline',
   statusText: 'Not responding.',
   lastUpdate: new Date(0).toISOString(),
-  nextCheck: new Date(Date.now() + 5 * 60 * 1000).toISOString(),
+  nextCheck: new Date(Date.now() + 15 * 60 * 1000).toISOString(),
   mood: 'Signal lost. Using fallback state.',
   stale: true,
   theme: 'night',
@@ -104,7 +104,7 @@ export function evaluateStatus(raw: Partial<PublicStatus> | null | undefined): P
   }
 
   const lastUpdate = typeof raw.lastUpdate === 'string' ? raw.lastUpdate : fallbackStatus.lastUpdate
-  const nextCheck = typeof raw.nextCheck === 'string' ? raw.nextCheck : new Date(Date.now() + 5 * 60 * 1000).toISOString()
+  const nextCheck = typeof raw.nextCheck === 'string' ? raw.nextCheck : new Date(Date.now() + 15 * 60 * 1000).toISOString()
   const mood = typeof raw.mood === 'string' && raw.mood.trim() ? raw.mood : fallbackStatus.mood
   const uptimeHuman = typeof raw.uptimeHuman === 'string' && raw.uptimeHuman.trim() ? raw.uptimeHuman : 'Unknown'
   const theme = typeof raw.theme === 'string' && raw.theme.trim() ? raw.theme : 'night'
